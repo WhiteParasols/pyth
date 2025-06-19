@@ -1,0 +1,21 @@
+h1{
+    color:blue
+}
+h2{
+    color:red
+}
+.color1{
+    color:green;
+    background-color: yellow;
+    border:5px solid red;
+}
+.color2{
+    color:yellowgreen;
+    background-color: yellow;
+    border: 3px dotted gray
+}
+#color3{
+    color:rgb(103, 49, 105);
+    background-color: beige;
+    width: 50%;
+}
