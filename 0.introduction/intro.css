@@ -1,0 +1,20 @@
+body{
+    display:flex;
+
+    height: 500px;
+}
+.side{
+    display: flex;
+    flex-direction: column;
+    width:16%;
+    align-items: center;
+    border: 2px dotted rgb(96 139 168);
+    background-color: azure;
+    align-self: stretch;
+
+}
+.main{
+    width: 84%;
+    flex-direction: column;
+
+}
