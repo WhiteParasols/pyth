@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>폼 학습</h1>
+    <h2>로그인창 만들기</h2>
+    <form>
+        <label for="user_id">아이디</label>
+        <input type="text" name="id" id="user_id"><br>
+        <label for="user_pw">비밀번호</label>
+        <input type="password" name="pw" id="user_pw"><br>
+        <input type="submit" value="로그인"> 
+        <!-- 폼이 전송될떄, 위의 input값의 name이 key가 되는거고, 실제로 사용자가 입력한게 value가 되어 서버로 전달된다-->
+         <!-- alt + z -->
+    </form>
+
+    <h2>검색창 만들기</h2>
+        <form>
+            <label for="search">검색</label>
+            <input type="text" name="q" id="search"><br>
+            <input type="submit" value="검색"> 
+        </form>
+</body>
+</html>
+
+<!-- 인라인 요소(inline element) =필요한 만큼만 공간 차지
+    예)img, a, span
+    블럭 요소(block element) = 무조건 그 한줄 다 차지
+    예)h1, p , div
+ -->
