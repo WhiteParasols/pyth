@@ -1,0 +1,42 @@
+img{
+    height:500px;
+}
+.image{
+    display:flex;
+    justify-content: center;
+}
+h1, h2{
+    text-align: center;
+}
+#calendar{
+    width: 100%;
+    border-collapse: collapse;
+}
+#calendar th{
+    background-color: #eee;
+}
+#calendar th,
+#calendar td{
+    width: 14%;
+    padding:10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+#calendar th:first-child,
+#calendar td:first-child{
+    color:red;
+}
+#calendar th:last-child,
+#calendar td:last-child{
+    color:blue;
+}
+.month-nav{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.month-nav a{
+    text-decoration: none;
+    color:black;
+    padding: 5px;
+}

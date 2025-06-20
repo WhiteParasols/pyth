@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .box{
+            width:100px;
+            height:100px;
+            background-color: red;
+            animation-name:moveLeft;
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            animation-direction:alternate;/*좌우 반복*/
+            position:relative;
+        }
+
+        @keyframes moveLeft {
+            0%{
+                left:0;
+            }
+            100%{
+                left: 200px;
+            }
+        }
+        @keyframes moveLeftRigth {
+            0%{
+                left:0;
+            }
+            30%{
+                left:200px;
+            }
+            100%{
+                left: 0;
+            }
+        }
+        .text{
+            width:100px;
+            height:100px;
+            animation-name:fadeOut;
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            position:relative;
+        }
+        @keyframes fadeOut {
+            0%{
+                opacity:1; /*1.0 = solid 꽉 찬것*/
+            }
+            100%{
+                opacity: 0;
+            }
+        }
+        .circle{
+            width:100px;
+            height:100px;
+            background-color: aqua;
+            border-radius: 30%;
+            animation-name:rotateAndScale;
+            animation-duration: 3s;
+            animation-timing-function: ease-in;
+            animation-iteration-count: 4;
+        }
+        @keyframes rotateAndScale{
+            0%{
+                transform:rotate(0deg) scale(1);
+            }
+            50%{
+                transform:rotate(180deg)scale(1.5);
+            }
+            100%{
+                transform:rotate(360deg)scale(1);
+            }
+        }
+        .image{
+            width:200px;
+            height:200px;
+            animation-name:shake;
+            animation-duration: 0.5s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes shake{
+            0%{
+                transform:translateX(0);
+            }
+            25%{
+                transform:translateX(-10px) rotate(-5deg);
+            }
+            50%{
+                transform:translateX(10px) rotate(5deg);
+            }
+            100%{
+                transform:translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <br>
+    <p class="text">fade out</p>
+    <br>
+    <div class="circle"></div>
+    <img src="image/cat3.jpg"  class="image">
+</body>
+</html>

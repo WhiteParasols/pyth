@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <Style>
+        .square{
+            width:100px;
+            height:100px;
+            background-color: bisque;
+            transition-duration: 1s;
+            transition-property: width, height, margin-left;
+            transition-timing-function: ease;
+        }
+        .square:hover{
+            width:150px;
+            height:150px;
+        }
+        .button{
+            color:black;
+            transition-property: color;
+             transition-duration: 1s;
+             transition-timing-function: ease;
+        }
+        .button:hover{
+            color:red;
+        }
+        .image{
+            width:200px;
+            height:200px;
+            transition-property: transform;
+            transition-duration: 2s;
+            transition-timing-function: ease-in-out;
+        }
+        .image:hover{
+            transform: rotate(180deg);
+        }
+    </Style>
+</head>
+<body>
+    <div class="square">hello</div>
+    <br>
+    <button class="button">마우스 위로 올려보세요</button>
+    <br>
+    <img src="image/cat2.jpg" class="image">
+</body>
+</html>
