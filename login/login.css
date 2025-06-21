@@ -27,14 +27,16 @@ a:hover{
     justify-content: space-evenly;
     padding: 10px;
     margin:3px;
+    border: 1px dotted black;
 }
 .alternative a{
     text-decoration: none;
     color:black;
     font-family: sans-serif;
-    font-style:normal;
+    font-style:normal; 
 }
-label{
+label i{
+    display: block;
     margin:3px;
     width: 30px;
 }

@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <title>Login Form</title>
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
     <form class="form-container">
-        <label for="email">ID</label>
+        <label for="email">
+            <i class="fa-solid fa-user" alt="Username icon"></i>
+            ID
+        </label>
         <input type="email" name="email" id="email" placeholder="E-mail">
-        <label for="password">Password</label>
+        <label for="password">
+            <i class="fa-solid fa-key"></i>
+            Password
+        </label>
         <input type="password" name="password" id="password" placeholder="Password"><br>
         <a href="#">Forgot Password / ID ?</a>
+        <br>
         <input type="submit" value="Login">
         <div class="alternative">
-            <a href="#">Google</a>
-            <a href="#">Insta</a>
+            <a href="#">
+                <i class="fa-brands fa-google"></i> Google
+            </a>
+            <a href="#">
+                <i class="fa-brands fa-instagram"></i> Instagram
+            </a>
         </div>
     </form>
 </body>
