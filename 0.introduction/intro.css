@@ -1,18 +1,34 @@
-body{
-    display:flex;
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
 
-    height: 500px;
 }
+
 .side{
     display: flex;
     flex-direction: column;
     width:16%;
     height: 100%;
     align-items: center;
-    border: 2px dotted rgb(96 139 168);
     background-color: azure;
-    align-self: stretch;
-
+    min-width: 5cm;
+}
+.side img {
+  width: 4cm;
+  height: 4cm;
+  margin-bottom: 0.7cm;
+  border-radius: 50%;
+  border: 0.15cm solid white;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .main{
     width: 84%;
