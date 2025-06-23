@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="changeColor()">배경색 변경하기</button>
+    <button onclick="changeColor2()">배경색 3변경하기</button>
+    <button onclick="changeColor3()">배경색 n변경하기</button>
+    <button onclick="changeColor4()">배경색 랜덤 변경하기</button>
+    <script>
+        function changeColor(){
+            if(document.body.style.backgroundColor == 'aqua'){
+                document.body.style.backgroundColor='';
+            }
+            else
+                document.body.style.backgroundColor='aqua';
+        }
+        function changeColor2(){
+            const colors = ["red","green","blue"];
+            console.log('현재배경', document.body.style.backgroundColor);
+            if(document.body.style.backgroundColor == ''){
+                document.body.style.backgroundColor='red';
+            }
+            else if(document.body.style.backgroundColor == 'red'){
+                document.body.style.backgroundColor='green';
+            }
+            else if(document.body.style.backgroundColor == 'green')
+                document.body.style.backgroundColor='blue';
+
+            else if(document.body.style.backgroundColor == 'blue'){
+                document.body.style.backgroundColor='red';
+            }
+            
+
+        }
+        let currentIndex =0;
+        function changeColor3(){ 
+            const colors=["red","green","blue","yellow" ,"orange","pruple"];
+            document.body.style.backgroundColor=colors[currentIndex];
+            currentIndex=(currentIndex+1)%colors.length;
+        }
+
+        function changeColor4()
+        {
+            const hex='#' + Math.floor(Math.random()*0xffffff).toString(16);
+            document.body.style.backgroundColor=hex;
+        }
+    </script>
+</body>
+</html>

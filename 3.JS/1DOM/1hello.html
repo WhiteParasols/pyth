@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- html 주석 -->
+    <title>Document</title>
+    <style>
+        /*css영역*/
+    </style>
+</head>
+<body>
+    <h1>헬로우 월드</h1>
+    <button style="color:red" onclick="sayHello()">hi!</button>
+    <button style="color:blue" onclick="sayGoodbye()">bye!</button>
+    <script>
+        //js 영역
+        function sayHello(){
+            console.log("안녕 콘솔");
+        }
+        function sayGoodbye(){
+            for(let i=0;i<5;i++){
+                document.write("<H"+i+">"+"굳바이 콘솔"+ "</H"+ i +">");
+                document.write(`<h${i}>!</h${i}>`)
+            }
+        }
+    </script>
+</body>
+</html>

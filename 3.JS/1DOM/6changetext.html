@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p id="myText">텍스트 색상 바꿔보세요</p>
+    <button onclick="chagneTextColor()">텍스트 색상 변경</button>
+    <script>
+        function chagneTextColor(){
+            let textElement=document.getElementById('myText');
+            console.log(textElement);
+            let currentColor = textElement.style.color;
+
+            //누를 때마다 빨강->파랑->빨강->파랑
+            if(textElement.style.color=='red'){
+                textElement.style.color='blue';
+            }
+            else{
+                textElement.style.color='red';
+            }
+
+        }
+    </script>
+</body>
+</html>

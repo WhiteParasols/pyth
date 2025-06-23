@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <select id="fruitSelector" onchange="fruitDisplay()">
+        <option value="apple">사과</option>
+        <option value="banana">바나나</option>
+        <option value="orange">오렌지</option>
+        <option value="pineapple">파인애플</option>
+        <option value="kiwi">키위</option>
+    </select> 
+    <div id="fruitResult"></div>  
+    <script>
+        function fruitDisplay(){
+            let fruit=document.getElementById("fruitSelector").value;
+            let result=document.getElementById("fruitResult");
+            switch(fruit){
+                case 'APPLE':
+                case 'apple':
+                    result.innerText='사과입니다';
+                    break;
+                case 'BANANA':
+                case 'banana':
+                    result.innerText='바나나입니다';
+                    break;
+                case 'ORANGE':
+                case 'orange':
+                    result.innerText='오렌지입니다';
+                    break;
+                case 'PINEAPPLE':
+                case 'pineapple':
+                    result.innerText='파인애플입니다';
+                    break;
+                default:
+                    result.innerText='몰라요';
+            }
+        }
+    </script> 
+</body>
+</html>

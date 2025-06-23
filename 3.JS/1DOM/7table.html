@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td{
+            padding:10px;
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+        </tr>
+    </table>
+    <button onclick="changeAllCellColor()">색 색상 모두 변경하기</button>
+    <button onclick="evenCell()">색 색상 짝수만 변경하기</button>
+    <button onclick="oddCell()">색 색상 홀수만 변경하기</button>
+    <script>
+        function changeAllCellColor(){
+            //document.getElementById
+            //document.getElementsByName
+            //document.getElementsByTagName
+            //document.getElementsByClassName
+
+            let cells=document.getElementsByTagName('td');
+            console.log(cells[8]);
+
+            //cells.style.backgroundColor = 'blue';
+            //전체 배열 한번에 적용불가
+
+            //cells[2].style.backgroundColor = 'blue';
+            //한번에 하나의 셀을 지정해서, 해당 변수를 통해 속성 변경
+
+            //legacy 한 for loop 
+            for(let i=0;i<9;i++){
+                cells[i].style.backgroundColor='green';
+            }
+
+            //moder for loop
+            for(let cell of cells){
+                cell.style.backgroundColor='lightblue';
+            }
+
+            //참고(안됨)
+            // cells.forEach(element => {
+            //     cell.style.backgroundColor='lightblue';
+            // });
+            //참고(됨)
+            // Array.from(cells).forEach(element => {
+            //     cell.style.backgroundColor='lightblue';
+            // });
+        }
+        function evenCell(){
+            let cells=document.getElementsByTagName('td');
+            for(let i=0;i<9;i++){
+                if(i%2==1)
+                    cells[i].style.backgroundColor='green';
+            }       
+        }
+        function oddCell(){
+            let cells=document.getElementsByTagName('td');
+            for(let i=0;i<9;i++){
+                if(i%2==0)
+                    cells[i].style.backgroundColor='green';
+            }
+        }
+    </script>
+</body>
+</html>
