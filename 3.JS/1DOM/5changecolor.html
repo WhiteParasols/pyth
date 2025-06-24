@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+            height:80vh;/*viewport, 높이의 단위*/
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #colorCode{
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: rgba(255,255,255,0.7);
+            border-radius:10px;
+            border:1px solid black;
+        }
+        button{
+            padding:10px 20px;
+            font-size: 18px;
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body>
     <button onclick="changeColor()">배경색 변경하기</button>
     <button onclick="changeColor2()">배경색 3변경하기</button>
     <button onclick="changeColor3()">배경색 n변경하기</button>
     <button onclick="changeColor4()">배경색 랜덤 변경하기</button>
+    <div id="colorCode"></div>
     <script>
         function changeColor(){
             if(document.body.style.backgroundColor == 'aqua'){
@@ -46,6 +69,11 @@
         {
             const hex='#' + Math.floor(Math.random()*0xffffff).toString(16);
             document.body.style.backgroundColor=hex;
+            displayColor(hex);
+        }
+        function displayColor(color){
+            const colorDisplay =document.getElementById('colorCode');
+            colorDisplay.textContent=`#${color}`;
         }
     </script>
 </body>

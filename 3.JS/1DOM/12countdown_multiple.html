@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>카운트다운 타이머</h1>
+    <input type="number" id="timeInput" placeholder="초 입력">
+    <button id='startButton' onclick="startTimer()">시작</button>
+    <div id="timerDisplay">카운팅표시</div>
+    <script>
+        function startTimer(){
+            const timeInputValue = document.getElementById('timeInput').value;
+            const timerDisplay = document.getElementById('timerDisplay');
+            const startButton=document.getElementById('startButton');
+            let timer = timeInputValue;
+
+            if(timer<=0||timer>=100000){
+                alert('0보다 큰 수로 입력하세요');
+                return;
+            }
+            
+            const newTimer=document.createElement('p');
+            timerDisplay.appendChild(newTimer);
+
+            let timerID = setInterval(()=>{
+                newTimer.textContent=`${timer} 카운팅..`
+                if(timer==0){
+                    newTimer.textContent=`종료.`
+                    clearInterval(timerID);
+                    
+                }
+                timer--;
+            },1000);
+            
+        }
+    </script>
+</body>
+</html>

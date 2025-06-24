@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #myDiv{
+            width:200px;
+            height:200px;
+            background-color: bisque;
+            margin-top: 20px;
+            display:none; /*버그유발*/
+        }
+        .show{
+            display:block !important;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="showhideDiv4()">숨겨진 영역 보이기</button>
+    <div id="myDiv">숨겨진 div..</div>
+    <script>
+        function showhideDiv(){
+            const divElem =document.getElementById('myDiv');
+            //const divElem =document.querySelector('#myDiv');
+            if(divElem.style.display==='none'){
+                divElem.style.display='block';
+            }
+            else{
+                divElem.style.display='none';
+            }
+        }
+        function showhideDiv2(){
+            const divElem =document.getElementById('myDiv');
+            //동작하는 기본 로직을 바꿔서 버그 해결은 되지만
+            //display:block 이면 반대버그가 또 생김.
+            if(divElem.style.display!=='block'){
+                divElem.style.display='block';
+            }
+            else{
+                divElem.style.display='none';
+            }
+        }
+        function showhideDiv3(){
+            const divElem=document.querySelector('#myDiv');
+            const divElemStyle=window.getComputedStyle(divElem).display;
+            //브라우저에 랜더링 다 끝난 시점의 스타일을 알려달라고 요청
+            console.log('최종 랜더링된 디자인: ', divElemStyle);
+            if(divElemStyle ==='none'){
+                divElem.style.display='block';
+            }
+            else{
+                divElem.style.display='none';
+            }
+        }
+        function showhideDiv4(){
+            const divElem=document.getElementById('myDiv');
+            divElem.classList.toggle('show');//있으면 빼고 없으면 붙여라
+
+        }
+    </script>
+</body>
+</html>

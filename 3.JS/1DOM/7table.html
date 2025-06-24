@@ -34,6 +34,7 @@
     <button onclick="changeAllCellColor()">색 색상 모두 변경하기</button>
     <button onclick="evenCell()">색 색상 짝수만 변경하기</button>
     <button onclick="oddCell()">색 색상 홀수만 변경하기</button>
+    <button onclick="oddCell4()">색 색상 홀수만 변경하기4</button>
     <script>
         function changeAllCellColor(){
             //document.getElementById
@@ -71,7 +72,7 @@
         }
         function evenCell(){
             let cells=document.getElementsByTagName('td');
-            for(let i=0;i<9;i++){
+            for(let i=0;i<9;i++){ /*for(let i=0; i<cells.length; i++) */
                 if(i%2==1)
                     cells[i].style.backgroundColor='green';
             }       
@@ -81,6 +82,42 @@
             for(let i=0;i<9;i++){
                 if(i%2==0)
                     cells[i].style.backgroundColor='green';
+            }
+        }
+        function oddCell2(){
+            //foreach에 첫번째 인자는 해당 리스트의 멤버
+            //foreach에 인자를 두개 넣으면 첫번째는 리스트의 멤버, 두번째는 리스트의 인덱스
+            Array.from(cells).forEach((cell,index)=>{
+                if(index%2===0){
+                    cells[index].style.backgroundColor='green';
+                }
+            })
+        }
+        function oddCell3(){
+            let index = 0;
+            for(const c of cells){
+                if(index%2===0){
+                    c[index].style.backgroundColor='green';
+                }
+                console.log(`인덱스: ${index}: 요소:${c}`);
+                index++;
+            }
+        }
+        // 4*4, 6*6같은 짝수일때
+        function oddCell4(){
+            //css selector 스타일로 요소를 가져오기 위한 함수
+            //querySelector 가장 먼저 매치되는 하나
+            //querySelectorAll 매치되는 모든 것
+            const oddCells = document.querySelectorAll('td:nth-child(odd)');
+            oddCells.forEach(c=>{
+                c.style.backgroundColor='green';
+            })
+        }
+        function oddCell5(){
+            let i=0;
+            while(i<cells.length){
+                cells[i].style.backgroundColor='green';
+                i+=2;
             }
         }
     </script>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4열 */
+            gap: 10px; /* 버튼 사이 여백 */
+            width: 300px; /* 그리드 전체 너비 */
+            margin: 50px auto; /* 가운데 정렬 */
+        }
+
+        .calculator input {
+            grid-column: span 4;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .calculator button {
+            padding: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="result">
+        <button onclick="appendNumber(this.textContent)">+</button>
+        <button onclick="appendNumber(this.textContent)">-</button>
+        <button onclick="appendNumber(this.textContent)">*</button>
+        <button onclick="appendNumber(this.textContent)">/</button>
+        <button onclick="appendNumber(this.textContent)">7</button>
+        <button onclick="appendNumber(this.textContent)">8</button>
+        <button onclick="appendNumber(this.textContent)">9</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendNumber(this.textContent)">4</button>
+        <button onclick="appendNumber(this.textContent)">5</button>
+        <button onclick="appendNumber(this.textContent)">6</button>
+        <button onclick="clearInput()">C</button>
+        <button onclick="appendNumber(this.textContent)">1</button>
+        <button onclick="appendNumber(this.textContent)">2</button>
+        <button onclick="appendNumber(this.textContent)">3</button>
+        <button onclick="appendNumber(this.textContent)">0</button>
+    </div>
+
+    <script>
+        let result = document.getElementById('result').value;
+        function appendNumber(number) {
+            document.getElementById('result').value += number;
+        }
+        function clearInput() {
+            document.getElementById('result').value = '';
+        }
+        function calculate() {
+            // 계산 어떻게 할거냐??
+            try{
+                document.getElementById('result').value = eval(document.getElementById('result').value);
+            }
+            catch(error){
+                document.getElementById('result').value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
