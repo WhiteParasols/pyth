@@ -47,20 +47,20 @@
     </div>
 
     <script>
-        let result = document.getElementById('result').value;
+        let result = document.getElementById('result');
         function appendNumber(number) {
-            document.getElementById('result').value += number;
+            result.value += number;
         }
         function clearInput() {
-            document.getElementById('result').value = '';
+            result.value = '';
         }
         function calculate() {
             // 계산 어떻게 할거냐??
             try{
-                document.getElementById('result').value = eval(document.getElementById('result').value);
+                result.value = eval(result.value);
             }
             catch(error){
-                document.getElementById('result').value = 'Error';
+                result.value = 'Error';
             }
         }
     </script>
