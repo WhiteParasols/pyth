@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grandparent{
+            padding:50px;
+            background-color: rgb(91, 95, 97);
+        }
+        #parent{
+            padding:50px;
+            background-color: rgb(74, 162, 192);
+        }
+        #child{
+            padding:50px;
+            background-color: rgb(227, 239, 243);
+        }
+    </style>
+</head>
+<body>
+    <div id="grandparent">    
+        <div id="parent">
+                <div id="child">
+
+                </div>
+
+        </div>
+    </div>
+    <script>
+        const grandparent=document.getElementById('grandparent');
+        const parent=document.getElementById('parent');
+        const child=document.getElementById('child');
+
+        //계층 구조에 맞게 내가 포함된 나를 포함한 부모로, 또 그 부모로 이벤트가 전달되는 현상 = bubbling
+        grandparent.addEventListener('click',function(){
+            alert('grandparent clicked');
+        })
+        parent.addEventListener('click',function(){
+            alert('parent clicked');
+            event.stopPropagation();
+        })
+        child.addEventListener('click',function(event){
+            alert('child clicked');
+            event.stopPropagation();
+        })
+    </script>
+</body>
+</html>

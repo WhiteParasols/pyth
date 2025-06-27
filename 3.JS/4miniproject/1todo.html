@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .strikethrough {
+            text-decoration: line-through;
+        }
+        li {
+            width: fit-content;
+        }
+        button{
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>todo list</h1>
+    <input type="text" id="userInput" placeholder="할 일 추가하기">
+    <button id="addTodo">추가</button>
+    <ul id="todoList"></ul>
+
+    <script>
+        const todoList = document.getElementById('todoList');
+        const addTodo= document.getElementById('addTodo');
+        const userInput= document.getElementById('userInput');
+        
+        function inputEvent(){
+            if(userInput.value.trim()==='') return; //공백 제거
+            const new_li=document.createElement('li');
+            const button=document.createElement('button');
+
+            button.textContent='delete'; 
+            
+            new_li.appendChild(document.createTextNode(userInput.value));
+            new_li.appendChild(button);
+            todoList.appendChild(new_li);
+            console.log(new_li);
+            userInput.value='';
+        }
+        addTodo.addEventListener('click', function(){
+            inputEvent();
+        });
+        userInput.addEventListener('keydown', function(e){
+            if(e.key==='Enter'){
+                inputEvent();
+            }
+        });
+        todoList.addEventListener('click',function(e){
+            if (e.target.tagName === 'LI') {
+                e.target.classList.toggle('strikethrough');
+            }
+        });
+        todoList.addEventListener('click',function(e){
+            if (e.target.tagName === 'BUTTON') {
+                console.log(e.target);
+                e.target.parentNode.remove();
+            }
+        });
+    </script>
+</body>
+</html>

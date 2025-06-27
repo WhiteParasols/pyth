@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #myDiv{
+            width: 100px;
+            height:100px;
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="myInput" placeholder="클릭해보세용">
+    <p id="inputLength"></p>
+    <script>
+        document.getElementById('myInput').addEventListener('focus',function() {
+            console.log('여기 포커스');
+        });
+        document.getElementById('myInput').addEventListener('blur',function() {
+            console.log('여기 언포커스');
+            const inputLength = this.value.length;
+            document.getElementById('inputLength').textContent = inputLength + "글자수";
+        });
+    </script>
+</body>
+</html>

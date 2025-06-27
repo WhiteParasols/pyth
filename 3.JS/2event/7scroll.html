@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #content{
+            height: 2000px;
+            background: linear-gradient(to bottom, blue 0%, red 100%);
+        }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        window.addEventListener('scroll',function(){
+            console.log('페이지 스크롤');
+            //const scrollPosition = window.pageYOffset;
+            //const scrollPosition = document.documentElemnt.scrollTop;
+
+            // 실무에서는 위의 옵션 중 어느것이 될지 모르기에 ||를 쓴다.
+            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop; 
+
+            console.log('현재 스크롤 위치: ', scrollPosition);
+        })
+    </script>
+</body>
+</html>

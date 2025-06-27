@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #displayKey{
+            font-size:50px;
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="myInput" placeholder="아무 키나 입력~">
+    <div id="displayKey"></div>
+    <script>
+        document.getElementById('myInput').addEventListener('keydown',function(e){
+            console.log('키보드 눌림: ',e.key);
+            //console.log('키보드 눌림: ',e.target.value);
+
+            const displayKey = document.getElementById('displayKey');
+            displayKey.textContent=e.key;
+        })
+    </script>    
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #dragItem1{
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc;
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #dragItem2{
+            width: 100px;
+            height: 100px;
+            background-color: #ccffee;
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #dragItem3{
+            width: 100px;
+            height: 100px;
+            background-color: rgba(206, 153, 237, 0.8);
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #dropZone{
+            width: 200px;
+            height: 200px;
+            background-color: sandybrown;
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="dragItem1" draggable="true">드래그하시오</div>
+    <div id="dragItem2" draggable="true">드래그하시오</div>
+    <div id="dragItem3" draggable="true">드래그하시오</div>
+    <div id="dropZone">여기로 드래그하시오</div>
+    <script>
+        const dragItem1=document.getElementById('dragItem1');
+        const dragItem2=document.getElementById('dragItem2');
+        const dragItem3=document.getElementById('dragItem3');
+        
+        const dropZone=document.getElementById('dropZone');
+        let dragged;
+
+        dragItem1.addEventListener('dragstart', function(){
+            dragged=dragItem1;
+        });
+        dragItem2.addEventListener('dragstart', function(){
+            dragged=dragItem2;
+        });
+        dragItem3.addEventListener('dragstart', function(){
+            dragged=dragItem3;
+        });
+        dropZone.addEventListener('dragover', function(event){
+            event.preventDefault();//기본적으로 드래그 못하는 것 비활성화
+            console.log('뭔가 올라옴');
+        });
+        dropZone.addEventListener('drop', function(){
+            console.log('여기 둠');
+            this.appendChild(dragged); // 위에 DOM을 잡아다가 여기 아래에 넣어줌
+        });
+    </script>
+</body>
+</html>

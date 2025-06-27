@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>안녕하세용</h1>
+    <img src="https://www.python.org/static/img/psf-logo.png">
+    <script>
+        //dom이 로딩이 끝났을 뿐, 모든 css와 외부이미지 로딩이 끝난것을 보장하진 않음.
+        document.addEventListener('DOMContentLoaded',function(){
+            const h1=document.getElementsByTagName('h1')[0];
+            h1.style.color='red';
+            console.log('여기는 dom 로딩이 끝났을 때');
+        });
+        window.onload=()=>{
+            console.log('여기는 모든 로딩 다 끝났을때');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button id="printButton">이 페이지 프린트</button>
+    <script>
+        document.getElementById('printButton').addEventListener('click',()=>{
+            window.print();
+        })
+        window.beforePrint=()=>{
+            console.log('출력 전')
+        }
+        window.afterPrint=()=>{
+            console.log('출력 후')
+        }
+    </script>
+</body>
+</html>
