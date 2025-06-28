@@ -47,9 +47,7 @@
 
             userInput.value='';
         }
-        addTodo.addEventListener('click', function(){
-            inputEvent();
-        });
+        addTodo.addEventListener('click', inputEvent);
         userInput.addEventListener('keydown', function(e){
             if(e.key==='Enter'){
                 inputEvent();

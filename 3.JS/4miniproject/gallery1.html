@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display:flex;
+            height:100px;
+        }
+        p {
+            text-align: center;
+        }
+        p img{
+            height: 150px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img src="../../1.html/image/cat.jpg" alt="cat pic" id="cat" onclick="show(this)"/>
+        <img src="../../1.html/image/cat2.jpg" alt="cat pic2" id="cat2" onclick="show(this)"/>
+        <img src="../../1.html/image/cat3.jpg" alt="cat pic3" id="cat3" onclick="show(this)"/>
+    </div>
+    <br>
+    <p id="photo"></p>
+    <script>
+        const photo= document.getElementById('photo');
+        function show(image){
+            photo.innerHTML = image.outerHTML;
+        }    
+    </script>
+</body>
+</html>

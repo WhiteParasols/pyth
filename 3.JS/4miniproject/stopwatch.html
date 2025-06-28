@@ -5,30 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div{
+        #plate{
             font-size: 30px;
+            text-align: center;
+            background-color: beige;
         }
     </style>
 </head>
 <body>
-    <div id="display">00:00.00</div>
-    <button id="startButton">start</button>
-    <button id="stopButton">stop</button>
-    <button id="resetButton">reset</button>
+    <div id="plate">
+        <div id="display">00:00.00</div>
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+    </div>
     <script>
-        const stopButton=document.getElementById('stopButton');
-        const startButton=document.getElementById('startButton'); 
-        const resetButton=document.getElementById('resetButton'); ;
-    
-        stopButton.addEventListener('click', function(){
-            
-        });
-        startButton.addEventListener('click', function(){
-            
-        });
-        resetButton.addEventListener('click', function(){
-            
-        });
+        const display = document.getElementById('display');
+        const startButton = document.getElementById('start');
+        const stoptButton = document.getElementById('stop');
+        const resetButton = document.getElementById('reset');
+
+
+        function updateDisplay() {
+   
+        }
+
+        function start() {
+
+        }
+
+        function reset() {
+
+        }
+
+        startButton.addEventListener('click', start);
+        resetButton.addEventListener('click', reset);
+
+        // 초기화
+        updateDisplay();
     </script>
 </body>
 </html>
