@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #plate{
+        #container{
             font-size: 30px;
             text-align: center;
             background-color: beige;
@@ -13,36 +13,64 @@
     </style>
 </head>
 <body>
-    <div id="plate">
-        <div id="display">00:00.00</div>
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="reset">Reset</button>
+    <div id="container">
+        <div id="display">
+            00:00.00
+        </div>
+        <button id="startBtn" onclick="start()">Start</button>
+        <button id="stopBtn" onclick="stop()">Stop</button>
+        <button id="resetBtn" onclick="reset()">Reset</button>
     </div>
     <script>
-        const display = document.getElementById('display');
-        const startButton = document.getElementById('start');
-        const stoptButton = document.getElementById('stop');
-        const resetButton = document.getElementById('reset');
+        const display = document.getElementById("display");
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        let timer = null;
+        let startTime = 0;
+        let elapsedTime = 0;
+        let isRunning = false;
 
-
-        function updateDisplay() {
-   
+        function start(){
+            if(!isRunning){
+                startTime = Date.now() - elapsedTime;
+                timer = setInterval(update, 10);
+                isRunning = true;
+                startBtn.disabled=true;
+                stopBtn.disabled=false;
+            }
+        }
+        function stop(){
+            if(isRunning){
+                clearInterval(timer);
+                elapsedTime = Date.now() - startTime;
+                isRunning = false;
+                stopBtn.disabled=true;
+                startBtn.disabled=false;
+            }
+        }
+        function reset(){
+            clearInterval(timer);
+            startTime = 0;
+            elapsedTime = 0;
+            isRunning = false;    
+            display.textContent = "00:00.00";
         }
 
-        function start() {
+        function update(){
+            
+            const currentTime = Date.now();
+            elapsedTime = currentTime - startTime;
 
+            let minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
+            let seconds = Math.floor(elapsedTime / 1000 % 60);
+            let milliseconds = Math.floor(elapsedTime % 1000 / 10);
+
+            minutes = String(minutes).padStart(2, "0");
+            seconds = String(seconds).padStart(2, "0");
+            milliseconds = String(milliseconds).padStart(2, "0");
+
+            display.textContent = `${minutes}:${seconds}:${milliseconds}`;
         }
-
-        function reset() {
-
-        }
-
-        startButton.addEventListener('click', start);
-        resetButton.addEventListener('click', reset);
-
-        // 초기화
-        updateDisplay();
     </script>
 </body>
 </html>
