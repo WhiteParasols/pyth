@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for u in users %}
+        {{u}}<br>
+    {% endfor %}
+    {%if page >1 %}
+        <a href="?page={{ page - 1 }}">Previous</a>
+    {% endif %}
+    {%if page < total_pages %}
+        <a href="?page={{ page + 1 }}">Next</a>
+    {% endif %}
+</body>
+</html>
