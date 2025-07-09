@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이 픽사베이</title>
+</head>
+<body>
+    <h1>이미지 검색</h1>
+    <!-- <form action="/search" method="GET"> -->
+    <form action="{{ url_for('search') }}">
+        <input type="text" name="q" placeholder="예) cat, dog, pet" required>
+        <button type="submit">검색</button>
+    </form>
+</body>
+</html>

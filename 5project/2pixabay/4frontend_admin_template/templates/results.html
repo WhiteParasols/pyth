@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>"{{ query }}" 에 대한 검색결과</h2>
+    <a href="{{ url_for('index') }}">&lt- 뒤로가기</a>
+    <div>
+        {% if results %}
+            {% for image in results %}
+                <img src="{{ image }}">
+            {% endfor %}
+        {% else %}
+            <p>검색 결과가 없습니다.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
