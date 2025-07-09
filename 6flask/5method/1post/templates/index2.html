@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}home{% endblock %}
+
+{% block content %}
+    {% if user %}
+        <h2>Welcome {{ user.name }}!</h2>
+    {% else %}
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="입력">
+        </form>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+

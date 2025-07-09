@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>파일 업로드</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <!-- enctype 들이 어떤게 있는지 알아야 함
+        enctype 값	설명	사용 예시
+        application/x-www-form-urlencoded	기본값, 텍스트 데이터용	로그인/검색 등
+        multipart/form-data	파일 포함 폼	이미지 업로드 등
+        text/plain	인코딩 없음, 실사용 거의 없음	디버깅 용도
+        -->
+        <input type="file" name="file">
+        <button type="submit">전송</button>
+    </form>
+    
+    <h1>업로드된 파일 목록</h1>
+    <ul>
+        {% for file in files %}
+            <li>
+                {{ file }}
+                <a href="/delete/{{ file }}" onclick="return confirm('정말 삭제하시겠습니까?')">[삭제]</a>
+            </li>
+        {% else %}
+            <li>업로드된 파일이 없습니다.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

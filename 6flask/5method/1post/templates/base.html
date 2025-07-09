@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <!-- 나중에 여기 메뉴 추가 -->
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/product">Product</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

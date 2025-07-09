@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Image List</title>
+</head>
+<body>
+    <h1>Admin Page: All .jpg Images</h1>
+
+    <h2>Add New Image</h2>
+    <form method="POST" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
+        <label>Select Image File (jpg, png, gif):</label><br>
+        <input type="file" name="file" accept=".jpg,.jpeg,.png,.gif" required><br>
+
+        <label>Keywords (comma separated):</label><br>
+        <input type="text" name="keywords" required placeholder="dog, cute, park"><br>
+
+        <button type="submit">Upload & Add</button>
+    </form>
+    <hr>
+
+    <ul>
+        {% for img in images %}
+            <li>
+                <img src="{{ url_for('static', filename='img/' ~ img.filename) }}" width="150"><br>
+                <strong>{{ img.filename }}</strong><br>
+                Keywords: {{ img.keywords | join(', ') }}
+
+                <form method="POST" action="{{ url_for('update_keywords') }}">
+                    <input type="hidden" name="filename" value="{{ img.filename }}">
+                    <input type="text" name="keywords" value="{{ img.keywords | join(', ') }}">
+                    <button type="submit">Update</button>
+                </form>
+
+                <form method="POST" action="{{ url_for('delete_image') }}" onsubmit="return confirm('Delete this image?');">
+                    <input type="hidden" name="filename" value="{{ img.filename }}">
+                    <button type="submit" style="color:red;">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

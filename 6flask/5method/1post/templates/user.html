@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}홈{% endblock %}
+
+{% block content %}
+<h1>사용자 페이지</h1>
+{% if user %}
+<h3>안녕하세요, {{ user.name }}님</h3>
+{% else %}
+{{ error }}
+{% endif %}
+
+{% endblock %}

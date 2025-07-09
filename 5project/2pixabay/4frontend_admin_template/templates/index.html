@@ -7,36 +7,10 @@
 </head>
 <body>
     <h1>이미지 검색</h1>
-    <form action="/search" method="GET" id="searchForm">
-        <input type="text" name="q" id="query" placeholder="예) cat, dog, pet" required>
+    <!-- <form action="/search" method="GET"> -->
+    <form action="{{ url_for('search') }}">
+        <input type="text" name="q" placeholder="예) cat, dog, pet" required>
         <button type="submit">검색</button>
     </form>
-
-    <div id="results"><!-- 결과 이미지를 채울 공간 --></div>
-
-    <script>
-        document.getElementById('searchForm').addEventListener("submit", (e) => {
-            e.preventDefault(); // 원래 하던 폼 전송후 리프래쉬 막기
-            const query = document.getElementById('query').value;
-
-            fetch(`/api/search?q=${encodeURIComponent(query)}`) // 요청한다
-                .then(response => response.json()) // 요청해서 받아온 응답을 json으로 파싱한다
-                .then(data => {   // 파싱이 끝난 내용을 data라는 변수로 담아와서 처리한다
-                    // console.log(data)
-                    const resultDiv = document.getElementById('results');
-                    resultDiv.innerHTML = ""; // 기존에 결과가 있었으면 일단 지우기
-
-                    if (data.url.length === 0) {
-                        resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
-                        return;
-                    }
-
-                    data.url.forEach(item => {
-                        // console.log(item)
-                        resultDiv.innerHTML += `<img src="${item}">`
-                    });
-                })
-        })
-    </script>
 </body>
 </html>
