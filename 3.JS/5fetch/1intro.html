@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>외부 요청</h1>
+    <button id="load">데이터 로딩</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('load').addEventListener('click', () => {
+            console.log('버튼 클릭');
+            // 외부에 요청하겠어.. xhr 이라는 기술로 xml-http-request 라는 방식으로 복잡하게 요청했음.
+            // jquery -> ajax 
+            // fetch 라는게 생겨났음. 
+            fetch('http://127.0.0.1:5000/data')
+            // fetch('http://127.0.0.1:5000/api/search?q=dog')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("네트워크 오류??");
+                    }
+                    return response.json() // 이 리턴 값을 다음의 then이 정한 변수로 받아줌
+                })
+                .then(data => { // 위의 return 결과, 즉 response.json() 의 값이 data라는 변수에 받아짐
+                    document.getElementById('result').innerHTML = "<p>" + data + "</p>"
+                })
+                .catch(error => { // 위의 then, then, 등의 구문 중에서 오류가 발생한걸 error 라는 변수로 받아줌
+                    console.error('오류가 났음: ', error);
+                });
+        })
+    </script>
+</body>
+</html>

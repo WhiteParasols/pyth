@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Choose a breed: </h1>
+    <label for="breedSelect">Select Breed:</label>
+    <select id="breedSelect">
+        <option disabled selected>-- Select Breed --</option>
+    </select>
+
+    <label for="subBreedSelect">Select Sub-breed:</label>
+    <select id="subBreedSelect" disabled>
+        <option>-- No Sub-breeds --</option>
+    </select>
+    <div id="result"></div>
+
+<script>
+    const breedSelect = document.getElementById('breedSelect');
+    const subBreedSelect = document.getElementById("subBreedSelect");
+    const result = document.getElementById('result');
+    let breedList = {};
+
+    fetch('https://dog.ceo/api/breeds/list/all')
+        .then(response => response.json())
+        .then(data => {
+            breedList = data.message;
+            console.log(breedList)
+            // Clear previous options (except default)
+            breedSelect.length = 1; // Keep the first "-- Select a breed --"
+
+            // Populate dropdown
+            for (const breed in breedList) {
+                const option = document.createElement('option');
+                option.value = breed;
+                option.textContent = breed;
+                breedSelect.appendChild(option);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching breed list:', error);
+        });
+
+
+    // When a breed is selected, fetch its image
+    document.getElementById('breedSelect').addEventListener('change', (e) => {
+        const breed = e.target.value;
+
+        if (!breed || !breedList[breed]) {
+            document.getElementById('subBreedSelect').style.display = 'none';
+            return;
+        }
+        const subBreeds = breedList[breed];
+        const subBreedSelect = document.getElementById('subBreedSelect');
+        const result = document.getElementById('result');
+
+        result.innerHTML = '';
+
+        if (subBreeds.length > 0) {
+            subBreedSelect.disabled = false; // Enable it
+            subBreedSelect.style.display = 'inline';
+            subBreedSelect.length = 1; // Reset to default
+            subBreeds.forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub;
+                option.textContent = sub;
+                subBreedSelect.appendChild(option);
+            });
+        }
+        else {
+            // Hide sub-breed select
+            subBreedSelect.disabled = true;
+            subBreedSelect.style.display = 'none';
+            // Fetch image immediately
+            fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+                .then(response => response.json())
+                .then(data => {
+                    result.innerHTML = `<img src="${data.message}" alt="${breed}" style="max-width:400px;">`;
+                });
+        }
+    });
+    // When sub-breed is selected
+    document.getElementById('subBreedSelect').addEventListener('change', (e) => {
+        const subBreed = e.target.value;
+        const breed = document.getElementById('breedSelect').value;
+        const result = document.getElementById('result');
+
+        fetch(`https://dog.ceo/api/breed/${breed}/${subBreed}/images/random`)
+            .then(response => response.json())
+            .then(data => {
+                result.innerHTML = `<img src="${data.message}" alt="${breed} ${subBreed}" style="max-width:400px;">`;
+     });
+});
+</script>
+
+
+</body>
+</html>

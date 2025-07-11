@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="load">정보요청</button>
+    <div id="result"></div>
+
+    <button id="create">정보 생성요청</button>
+    <button id="delete">정보 삭제요청</button>
+    <button id="modify">정보 수정요청</button>
+
+    <script>
+        document.getElementById('modify').addEventListener('click',()=>{
+            const updateData = {
+                id:1,
+                title:'foo',
+                body:'bar',
+                userId:1,
+            }
+            fetch('https://jsonplaceholder.typicode.com/posts/1',{
+                method:'PUT',
+                body: JSON.stringify(newData)
+            })
+            .then(response=>response.json())
+            .then(json=>{
+                    document.getElementById('result').innerText=JSON.stringify(json,null,4)
+                })
+        });
+        document.getElementById('delete').addEventListener('click',()=>{
+            fetch('https://jsonplaceholder.typicode.com/posts',{
+                method:'DELETE',
+                body: JSON.stringify(newData)
+            })
+            .then(response=>response.json())
+            .then(json=>{
+                    document.getElementById('result').innerText=JSON.stringify(json,null,4)
+                })
+        });
+
+        document.getElementById('create').addEventListener('click',()=>{
+            const newData = {
+                title:'Tell me something.',
+                body:'hihihhh',
+                userID:5
+            }
+            fetch('https://jsonplaceholder.typicode.com/posts',{
+                method:'POST',
+                headers:{ //optional, 나의 바디 포멧과 언어 등을 넣어 주는 것이 좋음
+                    'Content-Type':'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(newData)
+            })
+            .then(response=>response.json())
+            .then(json=>{
+                    document.getElementById('result').innerText=JSON.stringify(json,null,4)
+                })
+        });
+        document.getElementById('load').addEventListener('click',()=>{
+            console.log('버튼클릭')
+            fetch('https://jsonplaceholder.typicode.com/posts/1') //기본값 get
+                .then(response=>response.json())
+                .then(json=>{
+                    document.getElementById('result').innerText=JSON.stringify(json,null,4)
+                })
+            console.log('fetch 후')
+        });
+    </script>
+</body>
+</html>

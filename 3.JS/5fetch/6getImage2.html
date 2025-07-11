@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Choose a breed: </h1>
+    <select id="breedSelect">
+        <option value="">-- Select a breed --</option>
+    </select>
+    <div id="result"></div>
+
+<script>
+    const breedSelect = document.getElementById('breedSelect');
+    const result = document.getElementById('result');
+
+    fetch('https://dog.ceo/api/breeds/list/all')
+        .then(response => response.json())
+        .then(data => {
+            const keys = Object.keys(data.message);
+            
+            // Clear previous options (except default)
+            breedSelect.length = 1; // Keep the first "-- Select a breed --"
+
+            // Populate dropdown
+            keys.forEach(breed => {
+                const option = document.createElement('option');
+                option.value = breed;
+                option.textContent = breed;
+                breedSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching breed list:', error);
+        });
+
+
+    // When a breed is selected, fetch its image
+    document.getElementById('breedSelect').addEventListener('change', (e) => {
+        const breed = e.target.value;
+        const result = document.getElementById('result');
+
+        if (breed) {
+            fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+                .then(response => response.json())
+                .then(data => {
+                    const img_url = data.message;
+                    result.innerHTML = `<img src="${img_url}" alt="${breed}" style="max-width:400px;">`;
+                })
+                .catch(error => {
+                    console.error('Error fetching dog image:', error);
+                    result.textContent = 'Error loading image.';
+                });
+        } else {
+            result.innerHTML = ''; // Clear image if no breed selected
+        }
+    });
+</script>
+
+
+</body>
+</html>

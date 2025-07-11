@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .error{
+            color:red;
+        }
+        .success{
+            color:aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <button id="load">로드</button>
+    <div id="result"><!--응답--></div>
+    <script>
+        const loadBtn = document.getElementById('load')
+        loadBtn.addEventListener('click',()=>{
+            const resultDiv=document.getElementById('result');
+            console.log('버튼');
+            fetch('http://127.0.0.1:5000/data')
+                .then(response=>{
+                    console.log('응답받음: 응답코드는?',response.status, response.ok)
+                    if(!response.ok){
+                        throw new Error('통신중 오류 발생')
+                    }
+                    return response.json()
+                })
+                .then(data=>{
+                    resultDiv.classList.add('success')
+                    if(data.result==='success'){
+                        resultDiv.classList.add('success');
+                        resultDiv.innerHTML=data.message;
+                    }
+                    else if(data.result==='false'){
+                        resultDiv.classList.add('false');
+                        resultDiv.innerHTML=data.message;
+                    }
+                })
+                .catch(error=>{
+                    resultDiv.classList.add('error')
+                    resultDiv.innerHTML='통신중 오류 발생'
+                })    
+                    console.log(response)
+                
+            console.log('fetch이후')
+        })
+    </script>
+</body>
+</html>
