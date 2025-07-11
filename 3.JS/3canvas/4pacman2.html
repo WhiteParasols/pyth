@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d'); // 그림을 그릴 공간에 접근하는 포인터...
+
+        let x = 100;
+        let y = 100;
+        let directionX=0;
+        let directionY=0;
+        let speed=1;
+        const size=20;
+
+        function drawPacman() {
+            context.fillStyle = 'yellow';
+            context.beginPath();
+            context.moveTo(x, y); // 시작점
+            const startAngle = 0.2 * Math.PI; // 대충~ 40도 전후
+            const endAngle = 1.8 * Math.PI; // 대충~ 320도 전후
+            context.arc(x, y, size, startAngle, endAngle);
+            context.fill();
+            context.closePath();
+        }
+
+        function animate() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // 전체 지우기
+            
+            drawPacman();
+            movePacman();
+            requestAnimationFrame(animate);
+        }
+
+        function movePacman() {
+            x+=directionX;
+            y+=directionY;
+            /* 화면의 왼쪽/오른쪽 벽에 부딛치면 */
+            if ((x < size) || (x > canvas.width - size)) {
+                x -= directionX;
+            }
+            /* 화면의 위/아래에 부딛치면 */
+            if ((y < size) || (y > canvas.height - size)) {
+                y -= directionY;
+            }
+        }
+
+        // 2. 키를 누를때마다 해당 방향으로 연속적으로 이동한다..
+        document.addEventListener('keydown', handleKeyDown);
+
+        function handleKeyDown(event) {
+            switch(event.key){
+                case "ArrowUp":
+                    directionX=0;
+                    directionY=-speed;
+                    break;
+                case "ArrowDown":
+                    directionX=0;
+                    directionY=speed;
+                    break;
+                case "ArrowLeft":
+                    directionX=-speed;
+                    directionY=0;
+                    break;
+                case "ArrowRight":
+                    directionX=speed;
+                    directionY=0;
+                    break;
+            }        
+        }
+
+        animate();
+    </script>
+</body>
+</html>
