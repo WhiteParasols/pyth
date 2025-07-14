@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Image List</title>
+    <style>
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 30px; }
+        img { width: 150px; border: 1px solid #ccc; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Admin Page: All .jpg Images</h1>
+
+    <h2>Add New Image</h2>
+    <form id="addForm">
+        <input type="file" name="file" accept=".jpg,.jpeg,.png,.gif" required><br>
+        <input type="text" name="keywords" placeholder="dog, cute, field" required><br>
+        <button type="submit">Upload & Add</button>
+    </form>
+    <hr>
+
+    <ul id="imageList"></ul>
+
+    <script>
+        // Load all images on page load
+        async function loadImages() {
+            const res = await fetch('/api/image_list');
+            const images = await res.json();
+
+            const ul = document.getElementById('imageList');
+            ul.innerHTML = '';
+
+            images.forEach(img => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <img src="static/img/${img.filename}" alt="${img.filename}"><br>
+                    <strong>${img.filename}</strong><br>
+                    Keywords: <span>${img.keywords.join(', ')}</span><br>
+
+                    <form class="updateForm">
+                        <input type="hidden" name="filename" value="${img.filename}">
+                        <input type="text" name="keywords" value="${img.keywords.join(', ')}">
+                        <button type="submit">Update</button>
+                    </form>
+
+                    <form class="deleteForm">
+                        <input type="hidden" name="filename" value="${img.filename}">
+                        <button type="submit" style="color:red;">Delete</button>
+                    </form>
+                `;
+                ul.appendChild(li);
+            });
+        }
+
+        loadImages();
+
+        // Add new image
+        document.getElementById('addForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            await fetch('/api/add_image', {
+                method: 'POST',
+                body: formData
+            });
+
+            form.reset();
+            loadImages();
+        });
+
+        // Delegate update & delete form submissions
+        document.getElementById('imageList').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const filename = formData.get('filename');
+
+            if (form.classList.contains('updateForm')) {
+                await fetch('/api/update_keywords', {
+                method: 'POST',
+                body: formData
+                });
+            }
+
+            if (form.classList.contains('deleteForm')) {
+                if (confirm(`Delete ${filename}?`)) {
+                await fetch('/api/delete_image', {
+                    method: 'POST',
+                    body: formData
+                });
+                }
+            }
+
+            loadImages();
+        });
+    </script>
+</body>
+</html>
