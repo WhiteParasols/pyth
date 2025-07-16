@@ -8,9 +8,58 @@
         img{
             height: 150px;
         }
+        ul{
+            display: none;
+        }
     </style>
 </head>
 <body>
-    
+    <ul>
+        <li><img src="../../1.html/image/cat.jpg" alt="cat pic" id="cat"/></li>
+        <li><img src="../../1.html/image/cat2.jpg" alt="cat pic2" id="cat2"/></li>
+        <li><img src="../../1.html/image/cat3.jpg" alt="cat pic3" id="cat3"/></li>
+    </ul>
+    <div id="currentImg"></div>
+    <br>
+    <button id='decrease' onclick='decrease()'>Previous</button>
+    <button id='increase' onclick="increase()">Next</button>
+    <script>
+        let currentIndex = 0;
+        const images = 3;
+        let currentImg = document.getElementById('currentImg');
+        let imgList = document.querySelectorAll('li');
+        const previous=document.getElementById('decrease');
+        const next=document.getElementById('increase');
+        
+        console.log(imgList[0])
+        currentImg.innerHTML= imgList[0].innerHTML;
+        currentImg.style.display='block';
+        console.log(currentImg)
+        previous.disabled=true;
+
+        function increase(){
+            previous.disabled=false;
+            imgList[currentIndex].style.display='none';
+            if(currentIndex<images)
+                currentIndex++ ;
+            if(currentIndex==images-1)
+                next.disabled=true;
+            console.log(currentIndex)
+            currentImg.innerHTML= imgList[currentIndex].innerHTML;
+            imgList[currentIndex].style.display='block';
+        }
+        function decrease(){
+            next.disabled=false;
+            imgList[currentIndex].style.display='none';
+            if(currentIndex>0)
+                currentIndex-- ;
+            if(currentIndex==0)
+                previous.disabled=true;
+            console.log(currentIndex)
+            currentImg.innerHTML= imgList[currentIndex].innerHTML;
+            imgList[currentIndex].style.display='block';
+        }
+        
+    </script>
 </body>
 </html>

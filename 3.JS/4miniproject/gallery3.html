@@ -1,11 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Vanilla JavaScript Carousel</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        }
+        .car {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .img-wrap {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: auto;
+            flex-shrink: 0;
+        }
+        .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="car">
+        <div class="img-wrap">
+            <img src="../../1.html/image/cat.jpg" alt="cat pic" id="cat"/>
+            <img src="../../1.html/image/cat2.jpg" alt="cat pic2" id="cat2"/> 
+            <img src="../../1.html/image/cat3.jpg" alt="cat pic3" id="cat3"/>
+        </div>
+        <button class="btn prev"><</button>
+        <button class="btn next">></button>
+    </div>
+    <script>
+        const prev = document.querySelector('.prev');
+        const next = document.querySelector('.next');
+        const wrap = document.querySelector('.img-wrap');
+        const imgs = document.querySelectorAll('.img-wrap img');
+        let idx = 0;
+        function showImg() {
+            if (idx >= imgs.length) idx = 0;
+            if (idx < 0) idx = imgs.length - 1;
+            wrap.style.transform = `translateX(-${idx * 100}%)`;
+        }
+        next.addEventListener('click', () => {
+            idx++;
+            showImg();
+        });
+
+        prev.addEventListener('click', () => {
+            idx--;
+            showImg();
+        });
+        setInterval(() => {
+            idx++;
+            showImg();
+        }, 3000);
+        showImg();
+    </script>
 </body>
 </html>
