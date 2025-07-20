@@ -1,0 +1,14 @@
+.strikethrough {
+    text-decoration: line-through;
+}
+ul {
+    padding: 0;
+}
+li {
+    list-style-type: none;
+    width: fit-content;
+    margin: 5px 0;
+}
+button {
+    margin-left: 10px;
+}

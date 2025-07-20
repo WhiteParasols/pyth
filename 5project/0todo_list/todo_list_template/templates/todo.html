@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='todo.css') }}">
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <form action="{{ url_for('add') }}" method="post">
+        <input type="text" name="text" placeholder="Add things to do">
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+        {% for todo in todos %}
+            <li class="{% if todo.done %}strikethrough{% endif %}">
+                <form action="{{ url_for('toggle', todo_id=todo.id) }}" method="post" style="display:inline;">
+                    <input type="checkbox" onclick="this.form.submit()" {% if todo.done %}checked{% endif %}>
+                </form>
+
+                {{ todo.text }}
+
+                <form action="{{ url_for('delete', todo_id=todo.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
