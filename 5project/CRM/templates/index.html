@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQLite REST API</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <nav>
+        <button onclick="loadTable('users')">Users</button>
+        <button onclick="loadTable('orders')">Orders</button>
+        <button onclick="loadTable('orderitems')">Order Items</button>
+        <button onclick="loadTable('items')">Items</button>
+        <button onclick="loadTable('stores')">Stores</button>
+    </nav>
+
+    <section id="table-container"></section>
+</body>
+
+</html>
