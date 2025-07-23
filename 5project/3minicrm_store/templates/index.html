@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 미션3 REST-API로 CSR 재개발해보기 -->
+    <h1>상점 리스트</h1>
+    <!-- 검색폼 추가 -->
+    <!-- 미션2 폼, 입력값 넣고 /를 다시 불러서 그 검색 내용만 출력 -->
+    <!-- GET방식으로 쿼리파라미터로 -->
+    <form method="GET">
+        <input type="text" name="name" value="{{ search }}" placeholder="검색할 이름을 입력하시오">
+        <button type="submit">검색</button>
+    </form>
+    <table border=1>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Address</th>
+        </tr>
+        {% for store in stores%}
+        <tr>
+            <td>{{store.Id}}</td>
+            <td>{{store.Name}}</td>
+            <td>{{store.Type}}</td>
+            <td>{{store.Address}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

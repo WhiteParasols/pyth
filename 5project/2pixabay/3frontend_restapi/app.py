@@ -2,7 +2,7 @@ from flask import Flask, jsonify, send_from_directory, url_for, request
 from flask_cors import CORS
 # pip install flask-cors
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)  # 나의 서버에 누구든지 와서 정보를 요청할수 있음.
 
 images = [
@@ -15,6 +15,10 @@ images = [
 @app.route('/')
 def index():
     return send_from_directory(app.static_folder, "index.html")
+
+@app.route('/search')
+def sss():
+    return send_from_directory(app.static_folder, "search.html")
 
 @app.route('/api/search')
 def search():
