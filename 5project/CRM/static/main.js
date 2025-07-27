@@ -45,7 +45,7 @@ async function loadTable(endpoint, page = 1) {
     const res = await fetch(`/api/${endpoint}?page=${page}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&sort=${currentSort}&order=${currentOrder}`);
     const result = await res.json();
     const data = result.data;
-     const { page: current, total_pages: total } = result.pagination;
+    const { page: current = 1, total_pages: total = 1 } = result.pagination || {};
 
     const tableContainer = document.getElementById('data-table');
 
@@ -71,6 +71,8 @@ async function loadTable(endpoint, page = 1) {
                 table += `<td><a href="#" onclick="loadOrderItems('${row[key]}')">${row[key]}</a></td>`;
             } else if (currentEndpoint === 'orderitems' && key === 'OrderId') {
                 table += `<td><a href="#" onclick="loadOrder('${row[key]}')">${row[key]}</a></td>`;
+            } else if (currentEndpoint === 'orderitems' && key === 'ItemId') {
+                table += `<td><a href="#" onclick="loadItemSales('${row[key]}')">${row[key]}</a></td>`;
             } else if (currentEndpoint === 'items' && key === 'Id') {
                 table += `<td><a href="#" onclick="loadItemSales('${row[key]}')">${row[key]}</a></td>`;
             } else if (currentEndpoint === 'stores' && key === 'Id') {
@@ -121,38 +123,71 @@ async function loadOrderItems(orderId) {
 async function loadRelatedOrders(userId) {
     const res = await fetch(`/api/orders?userId=${userId}`);
     const result = await res.json();
-    const data = result.data;
-    // const { page, total_pages } = result.pagination;
+
+    const orders = result.data || [];
+    const topStores = result.top_stores || [];
+    const topItems = result.top_items || [];
 
     const container = document.getElementById('table-container');
     container.innerHTML = `<h2>Orders for User ID: ${userId}</h2>`;
-    //container.innerHTML += `<button onclick="loadTable('users', currentPage)">← Back to All Users</button>`;
 
-    if (!data.length) {
-        container.innerHTML += `<p>No orders found for this user.</p>`;
-        return;
-    }
-
-    let table = '<table><thead><tr>';
-    for (let key in data[0]) table += `<th>${key}</th>`;
-    table += '</tr></thead><tbody>';
-
-    for (let row of data) {
-        table += '<tr>';
-        for (let key in row) {
-            if (key === 'Id') {
-                table += `<td><a href="#" onclick="loadOrderItems('${row[key]}')">${row[key]}</a></td>`;
-            } else {
-                table += `<td>${row[key]}</td>`;
+    // --- Orders table ---
+    if (!orders.length) {
+        container.innerHTML += '<p>No orders found for this user.</p>';
+    } else {
+        let orderTable = '<table><thead><tr>';
+        for (let key in orders[0]) orderTable += `<th>${key}</th>`;
+        orderTable += '</tr></thead><tbody>';
+        for (let row of orders) {
+            orderTable += '<tr>';
+            for (let key in row) {
+                if (key === 'Id') {
+                    orderTable += `<td><a href="#" onclick="loadOrderItems('${row[key]}')">${row[key]}</a></td>`;
+                } else {
+                    orderTable += `<td>${row[key]}</td>`;
+                }
             }
+            orderTable += '</tr>';
         }
-
-        table += '</tr>';
+        orderTable += '</tbody></table>';
+        container.innerHTML += orderTable;
     }
 
-    table += '</tbody></table>';
-    container.innerHTML += table;
+    // --- Top Stores table ---
+    if (topStores.length) {
+        container.innerHTML += `<h3>Top 5 Stores Ordered From</h3>`;
+        let storeTable = '<table><thead><tr>';
+        for (let key in topStores[0]) storeTable += `<th>${key}</th>`;
+        storeTable += '</tr></thead><tbody>';
+        for (let row of topStores) {
+            storeTable += '<tr>';
+            for (let key in row) {
+                storeTable += `<td>${row[key]}</td>`;
+            }
+            storeTable += '</tr>';
+        }
+        storeTable += '</tbody></table>';
+        container.innerHTML += storeTable;
+    }
+
+    // --- Top Items table ---
+    if (topItems.length) {
+        container.innerHTML += `<h3>Top 5 Items Ordered</h3>`;
+        let itemTable = '<table><thead><tr>';
+        for (let key in topItems[0]) itemTable += `<th>${key}</th>`;
+        itemTable += '</tr></thead><tbody>';
+        for (let row of topItems) {
+            itemTable += '<tr>';
+            for (let key in row) {
+                itemTable += `<td>${row[key]}</td>`;
+            }
+            itemTable += '</tr>';
+        }
+        itemTable += '</tbody></table>';
+        container.innerHTML += itemTable;
+    }
 }
+
 
 async function loadOrder(orderId) {
     const res = await fetch(`/api/orders?id=${orderId}`);
@@ -283,7 +318,7 @@ async function loadStoreSales(storeId) {
     const container = document.getElementById('table-container');
     container.innerHTML = `<h2>Monthly Sales for Store ID: ${storeId}</h2>`;
 
-    // ➤ First Table: Monthly Sales
+    // First Table: Monthly Sales
     if (!salesData.length) {
         container.innerHTML += '<p>No sales data found for this store.</p>';
     } else {
@@ -307,7 +342,7 @@ async function loadStoreSales(storeId) {
         container.innerHTML += salesTable;
     }
 
-    // ➤ Second Table: Top 10 Regular Customers
+    // Second Table: Top 10 Regular Customers
     container.innerHTML += `<h3>Top 10 Regular Customers</h3>`;
 
     if (!customerData.length) {

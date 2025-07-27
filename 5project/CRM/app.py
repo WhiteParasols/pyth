@@ -54,39 +54,126 @@ def api_orders():
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 10))
 
-    # Case 1: single order by ID
+    # Case 1: return single order by ID
     if order_id:
         query = f"SELECT * FROM orders WHERE Id = '{order_id}'"
         return jsonify({ "data": query_db(query) })
 
-    # Case 2: filter by UserId + search + pagination
+    # Case 2: build base query
     base_query = "SELECT * FROM orders"
     filters = []
 
-    # Add userId filter if present
+    # UserId filter
     if user_id:
         filters.append(f"UserId = '{user_id}'")
 
-    # Add search filter
+    # Search filter
     if search:
         filters.append(" OR ".join([
             f"{col} LIKE '%{search}%'" for col in ["Id", "OrderAt", "StoreId", "UserId"]
         ]))
 
-    # Combine filters
+    # Apply filters
     if filters:
         base_query += " WHERE " + " AND ".join([f"({f})" for f in filters])
 
     # Sorting
     base_query += f" ORDER BY {sort} {order.upper()}"
 
-    # Paginate unless in userId-only mode with no pagination needed
-    return jsonify(query_db_paginated(base_query, page, limit))
+    # Paginate
+    paginated_result = query_db_paginated(base_query, page, limit)
+
+    response = {
+        "data": paginated_result["data"],
+        "total": paginated_result["pagination"]["total_rows"]
+    }
+
+    # Case 3: if userId is provided, add top 5 stores and items
+    if user_id:
+        top_stores_query = f"""
+            SELECT 
+                stores.Id AS StoreId,
+                stores.Name AS StoreName,
+                COUNT(orders.Id) AS OrderCount
+            FROM orders
+            JOIN stores ON orders.StoreId = stores.Id
+            WHERE orders.UserId = '{user_id}'
+            GROUP BY stores.Id, stores.Name
+            ORDER BY OrderCount DESC
+            LIMIT 5;
+        """
+
+        top_items_query = f"""
+            SELECT 
+                items.Id AS ItemId,
+                items.Name AS ItemName,
+                COUNT(orderitems.Id) AS OrderItemCount
+            FROM orders
+            JOIN orderitems ON orders.Id = orderitems.OrderId
+            JOIN items ON orderitems.ItemId = items.Id
+            WHERE orders.UserId = '{user_id}'
+            GROUP BY items.Id, items.Name
+            ORDER BY OrderItemCount DESC
+            LIMIT 5;
+        """
+
+        response["top_stores"] = query_db(top_stores_query)
+        response["top_items"] = query_db(top_items_query)
+
+    return jsonify(response)
+
 
 
 @app.route('/api/items')
 def api_items():
-    return get_paginated_result("items")
+    item_id = request.args.get('id')
+    search = request.args.get('search', '')
+    sort = request.args.get('sort', 'Id')
+    order = request.args.get('order', 'asc').lower()
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 10))
+
+    base_query = "SELECT * FROM items"
+    filters = []
+
+    if item_id:
+        filters.append(f"Id = '{item_id}'")
+    elif search:
+        filters.append(" OR ".join([
+            f"{col} LIKE '%{search}%'" for col in ["Id", "Name", "Type"]
+        ]))
+
+    if filters:
+        base_query += " WHERE " + " AND ".join([f"({f})" for f in filters])
+
+    base_query += f" ORDER BY {sort} {order.upper()}"
+
+    paginated = query_db_paginated(base_query, page, limit)
+
+    summary = []
+    if item_id:
+        summary_query = f"""
+            SELECT 
+                strftime('%Y-%m', orders.OrderAt) AS OrderMonth,
+                items.Name AS ItemName,
+                COUNT(orderitems.Id) AS ItemCount,
+                items.UnitPrice,
+                COUNT(orderitems.Id) * CAST(items.UnitPrice AS REAL) AS TotalRevenue
+            FROM orderitems
+            JOIN orders ON orderitems.OrderId = orders.Id
+            JOIN items ON orderitems.ItemId = items.Id
+            WHERE items.Id = '{item_id}'
+            GROUP BY OrderMonth, items.Name, items.UnitPrice
+            ORDER BY OrderMonth;
+        """
+        summary = query_db(summary_query)
+
+    return jsonify({
+        "data": paginated["data"],
+        "pagination": paginated["pagination"],
+        "summary": summary
+    })
+
 
 @app.route('/api/item-sales/<item_id>')
 def api_item_sales(item_id):
