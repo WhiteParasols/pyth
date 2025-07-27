@@ -6,7 +6,7 @@ let currentSort = 'Id';
 let currentOrder = 'asc';
 let itemChart = null;
 
-function setupControls(endpoint) {
+function setupControls() {
     const container = document.getElementById('table-container');
     container.innerHTML = `
         <div class="controls">
@@ -31,7 +31,6 @@ function setupControls(endpoint) {
         loadTable(currentEndpoint, 1);
     };
 
-
     document.getElementById('limitSelect').onchange = () => {
         currentLimit = parseInt(document.getElementById('limitSelect').value);
         loadTable(currentEndpoint, 1);
@@ -46,7 +45,7 @@ async function loadTable(endpoint, page = 1) {
     const res = await fetch(`/api/${endpoint}?page=${page}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&sort=${currentSort}&order=${currentOrder}`);
     const result = await res.json();
     const data = result.data;
-    const { page: current, total_pages: total } = result.pagination;
+     const { page: current, total_pages: total } = result.pagination;
 
     const tableContainer = document.getElementById('data-table');
 
@@ -71,9 +70,11 @@ async function loadTable(endpoint, page = 1) {
             } else if (currentEndpoint === 'orders' && key === 'Id') {
                 table += `<td><a href="#" onclick="loadOrderItems('${row[key]}')">${row[key]}</a></td>`;
             } else if (currentEndpoint === 'orderitems' && key === 'OrderId') {
-                table += `<td><a href="#" onclick="loadSingleOrder('${row[key]}')">${row[key]}</a></td>`;
+                table += `<td><a href="#" onclick="loadOrder('${row[key]}')">${row[key]}</a></td>`;
             } else if (currentEndpoint === 'items' && key === 'Id') {
                 table += `<td><a href="#" onclick="loadItemSales('${row[key]}')">${row[key]}</a></td>`;
+            } else if (currentEndpoint === 'stores' && key === 'Id') {
+                table += `<td><a href="#" onclick="loadStoreSales('${row[key]}')">${row[key]}</a></td>`;
             } else {
                 table += `<td>${row[key]}</td>`;
             }
@@ -153,7 +154,7 @@ async function loadRelatedOrders(userId) {
     container.innerHTML += table;
 }
 
-async function loadSingleOrder(orderId) {
+async function loadOrder(orderId) {
     const res = await fetch(`/api/orders?id=${orderId}`);
     const result = await res.json();
     const data = result.data;
@@ -270,6 +271,121 @@ async function loadItemSales(itemId) {
         });
     });
 
+}
+
+async function loadStoreSales(storeId) {
+    const res = await fetch(`/api/store-sales/${storeId}`);
+    const result = await res.json();
+
+    const salesData = result.sales;
+    const customerData = result.customers;
+
+    const container = document.getElementById('table-container');
+    container.innerHTML = `<h2>Monthly Sales for Store ID: ${storeId}</h2>`;
+
+    // ➤ First Table: Monthly Sales
+    if (!salesData.length) {
+        container.innerHTML += '<p>No sales data found for this store.</p>';
+    } else {
+        let salesTable = '<table><thead><tr>';
+        for (let key in salesData[0]) salesTable += `<th>${key}</th>`;
+        salesTable += '</tr></thead><tbody>';
+
+        for (let row of salesData) {
+            salesTable += '<tr>';
+            for (let key in row) {
+                if (key === 'OrderMonth') {
+                    salesTable += `<td><a href="#" onclick="loadStoreMonthSales('${storeId}', '${row[key]}')">${row[key]}</a></td>`;
+                } else {
+                    salesTable += `<td>${row[key]}</td>`;
+                }
+            }
+            salesTable += '</tr>';
+        }
+
+        salesTable += '</tbody></table>';
+        container.innerHTML += salesTable;
+    }
+
+    // ➤ Second Table: Top 10 Regular Customers
+    container.innerHTML += `<h3>Top 10 Regular Customers</h3>`;
+
+    if (!customerData.length) {
+        container.innerHTML += '<p>No customer data found for this store.</p>';
+        return;
+    }
+
+    let custTable = '<table><thead><tr>';
+    for (let key in customerData[0]) custTable += `<th>${key}</th>`;
+    custTable += '</tr></thead><tbody>';
+
+    for (let row of customerData) {
+        custTable += '<tr>';
+        for (let key in row) {
+            if (key === 'UserId') {
+                custTable += `<td><a href="#" onclick="loadRelatedOrders('${row[key]}')">${row[key]}</a></td>`;
+            } else {
+                custTable += `<td>${row[key]}</td>`;
+            }
+        }
+        custTable += '</tr>';
+    }
+
+    custTable += '</tbody></table>';
+    container.innerHTML += custTable;
+}
+
+async function loadStoreMonthSales(storeId, month) {
+    const res = await fetch(`/api/store-monthly/${storeId}/${month}`);
+    const result = await res.json();
+    const summary = result.summary;
+    const topUsers = result.top_users;
+
+    const container = document.getElementById('table-container');
+    container.innerHTML = `<h2>Monthly Sales for ${month} (Store ID: ${storeId})</h2>`;
+
+    // Monthly Revenue + Item Count
+    if (!summary.length) {
+        container.innerHTML += '<p>No summary found for this month.</p>';
+    } else {
+        let summaryTable = '<table><thead><tr>';
+        for (let key in summary[0]) summaryTable += `<th>${key}</th>`;
+        summaryTable += '</tr></thead><tbody>';
+
+        for (let row of summary) {
+            summaryTable += '<tr>';
+            for (let key in row) {
+                summaryTable += `<td>${row[key]}</td>`;
+            }
+            summaryTable += '</tr>';
+        }
+
+        summaryTable += '</tbody></table>';
+        container.innerHTML += summaryTable;
+    }
+
+    // Top 5 Regular Customers
+    container.innerHTML += `<h3>Top 5 Regular Customers in ${month}</h3>`;
+    if (!topUsers.length) {
+        container.innerHTML += '<p>No customer data for this month.</p>';
+    } else {
+        let userTable = '<table><thead><tr>';
+        for (let key in topUsers[0]) userTable += `<th>${key}</th>`;
+        userTable += '</tr></thead><tbody>';
+        for (let row of topUsers) {
+            userTable += '<tr>';
+            for (let key in row) {
+                if (key === 'UserId') {
+                    userTable += `<td><a href="#" onclick="loadRelatedOrders('${row[key]}')">${row[key]}</a></td>`;
+                } else {
+                    userTable += `<td>${row[key]}</td>`;
+                }
+            }
+            userTable += '</tr>';
+        }
+        userTable += '</tbody></table>';
+        container.innerHTML += userTable;
+    }
 }
 
 function sortBy(column) {

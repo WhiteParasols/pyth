@@ -117,6 +117,74 @@ def api_orderitems():
 
     return get_paginated_result("orderitems")
 
+@app.route('/api/store-sales/<store_id>')
+def api_store_sales(store_id):
+    sales_query = f"""
+        SELECT 
+            strftime('%Y-%m', orders.OrderAt) AS OrderMonth,
+            SUM(CAST(items.UnitPrice AS REAL)) AS Revenue,
+            COUNT(orderitems.Id) AS ItemCount
+        FROM orderitems
+        JOIN orders ON orderitems.OrderId = orders.Id
+        JOIN items ON orderitems.ItemId = items.Id
+        JOIN stores ON orders.StoreId = stores.Id
+        WHERE stores.Id = '{store_id}'
+        GROUP BY OrderMonth
+        ORDER BY OrderMonth;
+    """
+
+    customers_query = f"""
+        SELECT 
+            users.Id AS UserId,
+            users.Name AS UserName,
+            COUNT(orders.Id) AS OrderCount
+        FROM orders
+        JOIN users ON orders.UserId = users.Id
+        WHERE orders.StoreId = '{store_id}'
+        GROUP BY users.Id, users.Name
+        ORDER BY OrderCount DESC
+        LIMIT 10;
+    """
+
+    return jsonify({
+        "sales": query_db(sales_query),
+        "customers": query_db(customers_query)
+    })
+
+@app.route('/api/store-monthly/<store_id>/<month>')
+def api_store_monthly_sales(store_id, month):
+    summary_query = f"""
+        SELECT 
+            strftime('%Y-%m-%d', orders.OrderAt) AS OrderDate,
+            SUM(CAST(items.UnitPrice AS REAL)) AS Revenue,
+            COUNT(orderitems.Id) AS ItemCount
+        FROM orderitems
+        JOIN orders ON orderitems.OrderId = orders.Id
+        JOIN items ON orderitems.ItemId = items.Id
+        WHERE strftime('%Y-%m', orders.OrderAt) = '{month}'
+          AND orders.StoreId = '{store_id}'
+        GROUP BY OrderDate
+        ORDER BY OrderDate;
+    """
+
+    top_users_query = f"""
+        SELECT 
+            users.Id AS UserId,
+            users.Name AS UserName,
+            COUNT(orders.Id) AS OrderCount
+        FROM orders
+        JOIN users ON orders.UserId = users.Id
+        WHERE orders.StoreId = '{store_id}'
+        AND strftime('%Y-%m', orders.OrderAt) = '{month}'
+        GROUP BY users.Id, users.Name
+        ORDER BY OrderCount DESC
+        LIMIT 5;
+    """
+
+    return jsonify({
+        "summary": query_db(summary_query),
+        "top_users": query_db(top_users_query)
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
