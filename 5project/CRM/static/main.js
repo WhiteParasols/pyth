@@ -31,6 +31,14 @@ function setupControls() {
         loadTable(currentEndpoint, 1);
     };
 
+    // When "Enter" is pressed in the input box
+    document.getElementById('searchBox').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            currentSearch = e.target.value.trim();
+            loadTable(currentEndpoint, 1);
+        }
+    });
+
     document.getElementById('limitSelect').onchange = () => {
         currentLimit = parseInt(document.getElementById('limitSelect').value);
         loadTable(currentEndpoint, 1);

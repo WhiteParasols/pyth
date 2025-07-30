@@ -54,56 +54,59 @@ def api_orders():
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 10))
 
-    # Case 1: return single order by ID
+    # Case 1: Get a single order by ID
     if order_id:
-        query = f"SELECT * FROM orders WHERE Id = '{order_id}'"
-        return jsonify({ "data": query_db(query) })
+        query = f"SELECT * FROM orders WHERE Id = ?"
+        data = query_db(query, [order_id])
+        return jsonify({ "data": data })
 
-    # Case 2: build base query
+    # Build base query
     base_query = "SELECT * FROM orders"
     filters = []
 
-    # UserId filter
     if user_id:
-        filters.append(f"UserId = '{user_id}'")
-
-    # Search filter
+        filters.append("UserId = ?")
     if search:
         filters.append(" OR ".join([
-            f"{col} LIKE '%{search}%'" for col in ["Id", "OrderAt", "StoreId", "UserId"]
+            f"{col} LIKE ?" for col in ["Id", "OrderAt", "StoreId", "UserId"]
         ]))
 
-    # Apply filters
     if filters:
         base_query += " WHERE " + " AND ".join([f"({f})" for f in filters])
 
-    # Sorting
     base_query += f" ORDER BY {sort} {order.upper()}"
 
-    # Paginate
-    paginated_result = query_db_paginated(base_query, page, limit)
+    # Parameters for secure binding
+    params = []
+    if user_id:
+        params.append(user_id)
+    if search:
+        like = f"%{search}%"
+        params.extend([like] * 4)
+
+    paginated = query_db_paginated(base_query, page, limit, params)
 
     response = {
-        "data": paginated_result["data"],
-        "total": paginated_result["pagination"]["total_rows"]
+        "data": paginated["data"],
+        "pagination": paginated["pagination"]
     }
 
-    # Case 3: if userId is provided, add top 5 stores and items
+    # Add extra data for user view
     if user_id:
-        top_stores_query = f"""
+        top_stores = query_db("""
             SELECT 
                 stores.Id AS StoreId,
                 stores.Name AS StoreName,
                 COUNT(orders.Id) AS OrderCount
             FROM orders
             JOIN stores ON orders.StoreId = stores.Id
-            WHERE orders.UserId = '{user_id}'
+            WHERE orders.UserId = ?
             GROUP BY stores.Id, stores.Name
             ORDER BY OrderCount DESC
-            LIMIT 5;
-        """
+            LIMIT 5
+        """, [user_id])
 
-        top_items_query = f"""
+        top_items = query_db("""
             SELECT 
                 items.Id AS ItemId,
                 items.Name AS ItemName,
@@ -111,18 +114,16 @@ def api_orders():
             FROM orders
             JOIN orderitems ON orders.Id = orderitems.OrderId
             JOIN items ON orderitems.ItemId = items.Id
-            WHERE orders.UserId = '{user_id}'
+            WHERE orders.UserId = ?
             GROUP BY items.Id, items.Name
             ORDER BY OrderItemCount DESC
-            LIMIT 5;
-        """
+            LIMIT 5
+        """, [user_id])
 
-        response["top_stores"] = query_db(top_stores_query)
-        response["top_items"] = query_db(top_items_query)
+        response["top_stores"] = top_stores
+        response["top_items"] = top_items
 
     return jsonify(response)
-
-
 
 @app.route('/api/items')
 def api_items():
@@ -274,4 +275,4 @@ def api_store_monthly_sales(store_id, month):
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) #host='0.0.0.0'

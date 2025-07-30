@@ -2,15 +2,15 @@ import sqlite3
 
 DB = 'mycrm.db'
 
-def query_db(query):
+def query_db(query, args=()):
     with sqlite3.connect(DB) as conn:
         conn.row_factory = sqlite3.Row  # Enables dict-like rows
         cur = conn.cursor()
-        cur.execute(query)
+        cur.execute(query, args)
         rows = cur.fetchall()
         return [dict(row) for row in rows]
 
-def query_db_paginated(query, page, limit):
+def query_db_paginated(query, page, limit, params=[]):
     offset = (page - 1) * limit
     paginated_query = f"{query} LIMIT {limit} OFFSET {offset}"
 
@@ -18,12 +18,12 @@ def query_db_paginated(query, page, limit):
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
 
-        # Total count
+        # Total rows
         count_query = f"SELECT COUNT(*) FROM ({query})"
-        total = cur.execute(count_query).fetchone()[0]
+        total = cur.execute(count_query, params).fetchone()[0]
 
         # Data rows
-        cur.execute(paginated_query)
+        cur.execute(paginated_query, params)
         rows = cur.fetchall()
         data = [dict(row) for row in rows]
 
