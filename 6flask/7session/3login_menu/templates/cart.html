@@ -1,0 +1,10 @@
+{% block title %}장바구니{% endblock %}
+{% block content %}
+<h1>장바구니</h1>
+<ul>
+    {% for item in cart_items %}
+    <li>{{ item.name }} - {{ item.price }}원 × {{ item.quantity }} = {{ item.total_price }}원</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('product') }}">← 상품으로 돌아가기</a>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}로그인 페이지{% endblock %}
+{% block content %}
+<H1>로그인...</H1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <!-- 로그인 폼 만들기 id/pw/submit -->
+        <label for="id">ID:</label>
+        <input type="text" name="id">
+        <br>
+        <label for="password">PW:</label>
+        <input type="password" name="password">
+        <br>
+        <input type="submit" value="로그인">
+    </form>
+{% endblock %}
