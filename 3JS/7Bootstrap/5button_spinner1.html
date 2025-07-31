@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap css 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-4">
+        <!-- 버튼1 추가 -->
+        <button id="loadButton1" class="btn btn-primary me-2" type="button">
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true" role="status"></span>
+            <span class="button-text">데이터 로딩</span>
+        </button>
+
+        <!-- 버튼2 추가 -->
+        <button id="loadButton2" class="btn btn-secondary me-2" type="button">
+            <span class="spinner-border text-danger spinner-border-sm invisible" aria-hidden="true" role="status"></span>
+            <span class="button-text">데이터 로딩</span>
+        </button>
+    </div>
+
+    <script>
+        const loadButton1 = document.getElementById('loadButton1');
+        const spinner1 = loadButton1.querySelector('.spinner-border');
+        const buttonText1 = loadButton1.querySelector('.button-text');
+        loadButton1.addEventListener('click', () => {
+            loadButton1.disabled = true;
+            buttonText1.textContent = "데이터 로딩중..."
+            spinner1.classList.remove('d-none'); // add, remove, toggle
+        });
+
+        const loadButton2 = document.getElementById('loadButton2');
+        const spinner2 = loadButton2.querySelector('.spinner-border');
+        const buttonText2 = loadButton2.querySelector('.button-text');
+        loadButton2.addEventListener('click', () => {
+            loadButton2.disabled = true;
+            buttonText2.textContent = "데이터 로딩중..."
+            spinner2.classList.remove('invisible'); // add, remove, toggle
+        })
+    </script>
+    <!-- bootstrap js 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
