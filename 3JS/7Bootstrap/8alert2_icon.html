@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap css 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container my-4">
+        <div class="alert alert-warning align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            경고 알림 메시지입니다!
+        </div>
+
+        <div class="alert alert-info align-items-center" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            참고 사항이 있습니다!
+        </div>
+
+        <div class="alert alert-danger align-items-center" role="alert">
+            <i class="bi bi-x-circle-fill me-2"></i>
+            심각한 오류가 있습니다!
+        </div>
+
+        <div class="alert alert-primary align-items-center" role="alert">
+            추가 정보를 보려면 <a href="#" class="alert-link">여기를 클릭</a> 하세요.
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            이 알림은 수동으로 닫을 수 있습니다.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="auto-close-alert">
+            이 알림은 5초 후에 자동으로 닫힙니다.!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            // console.log("이건 5초후에 출력됨.")
+            const alert = document.getElementById('auto-close-alert');
+            if (alert) {
+                alert.classList.remove('show');
+                // alert.remove(); // DOM 요소를 삭제. DOM을 그냥 삭제하면 fade효과는 없음
+            }
+        }, 5000);
+    </script>
+
+    <!-- bootstrap js 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

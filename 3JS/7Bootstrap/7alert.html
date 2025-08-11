@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap css 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="alert alert-primary" role="alert">기본 알림 메시지 입니다.</div>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        위험 알림 메시지 입니다.BS4용이라 닫히지 않습니다.!
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <!-- 위에 코드는 Bootstrap v4 까지용 닫기 기능. 5.0 에서는 다른 형태로 변경 되었음.. -->
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        닫을 수 있는 메시지 입니다. BS5용이라 정상적으로 동작합니다.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="container">
+        <div class="alert alert-primary" role="alert">
+        A simple primary alert—check it out!
+        </div>
+        <div class="alert alert-secondary" role="alert">
+        A simple secondary alert—check it out!
+        </div>
+        <div class="alert alert-success" role="alert">
+        A simple success alert—check it out!
+        </div>
+        <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+        </div>
+        <div class="alert alert-warning" role="alert">
+        A simple warning alert—check it out!
+        </div>
+        <div class="alert alert-info" role="alert">
+        A simple info alert—check it out!
+        </div>
+        <div class="alert alert-light" role="alert">
+        A simple light alert—check it out!
+        </div>
+        <div class="alert alert-dark" role="alert">
+        A simple dark alert—check it out!
+        </div>
+    </div>
+
+    <!-- bootstrap js 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
